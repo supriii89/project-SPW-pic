@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Product;
+use App\Models\Produk;
 
 class TransactionController extends Controller
 {
@@ -25,7 +26,7 @@ class TransactionController extends Controller
             'jumlah' => 'required|integer|min:1',
         ]);
 
-        $product = Product::find($request->product_id);
+        $product = Produk::find($request->product_id);
 
         // hitung total harga
         $total = $product->harga_jual * $request->jumlah;
