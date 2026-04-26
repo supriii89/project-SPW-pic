@@ -2,49 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Transaction;
 use App\Models\Product;
-use App\Models\Produk;
+use App\Models\Transaction;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    // GET /transactions
     public function index()
     {
-        $transactions = Transaction::with('product')->latest()->get();
-
+        $transactions = Transaction::with('product')->get();
         return response()->json($transactions);
     }
 
-    // POST /transactions
     public function store(Request $request)
     {
-        // validasi input
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'jumlah' => 'required|integer|min:1',
         ]);
 
-        $product = Produk::find($request->product_id);
+        return DB::transaction(function () use ($request) {
+            $product = Product::findOrFail($request->product_id);
 
-        // hitung total harga
-        $total = $product->harga_jual * $request->jumlah;
+            if ($product->stok < $request->jumlah) {
+                return response()->json(['message' => 'Insufficient stock'], 400);
+            }
 
-        // simpan transaksi
-        $transaction = Transaction::create([
-            'product_id' => $request->product_id,
-            'jumlah' => $request->jumlah,
-            'total_harga' => $total,
-        ]);
+            $total_harga = $product->harga_jual * $request->jumlah;
 
-        // update stok
-        $product->stok -= $request->jumlah;
-        $product->save();
+            $transaction = Transaction::create([
+                'product_id' => $product->id,
+                'jumlah' => $request->jumlah,
+                'total_harga' => $total_harga,
+            ]);
 
-        return response()->json([
-            'message' => 'Transaksi berhasil',
-            'data' => $transaction
-        ]);
+            $product->stok -= $request->jumlah;
+            $product->save();
+
+            return response()->json([
+                'message' => 'Transaction successful',
+                'data' => $transaction
+            ], 201);
+        });
     }
 }

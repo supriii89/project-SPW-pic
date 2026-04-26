@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Produk extends Model
+class Product extends Model
 {
     protected $fillable = [
         'nama_produk',
@@ -12,4 +12,9 @@ class Produk extends Model
         'harga_jual',
         'stok',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

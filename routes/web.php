@@ -1,15 +1,38 @@
 <?php
 
-use App\Http\Controllers\Produkcontroller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('products', [Produkcontroller::class, 'index']);
-Route::post('products', [Produkcontroller::class, 'store']);
-Route::get('products/{id}', [Produkcontroller::class, 'show']);
-Route::put('products/{id}', [Produkcontroller::class, 'update']);
-Route::delete('products/{id}', [Produkcontroller::class, 'destroy']);
-Route::get('/produk/create', [ProdukController::class, 'create']);
+// AUTHENTICATION
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+
+// PROTECTED ROUTES (using Sanctum)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // DASHBOARD
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    // PRODUCTS
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::get('/products/{id}', [ProductController::class, 'show']);
+    Route::put('/products/{id}', [ProductController::class, 'update']);
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+    // TRANSACTIONS
+    Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::post('/transactions', [TransactionController::class, 'store']);
+
+    // REPORTS
+    Route::get('/reports', [ReportController::class, 'index']);
+});
