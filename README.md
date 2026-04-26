@@ -1,58 +1,172 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 SPW PIC Backend - Sistem Point of Sale / Manajemen Toko
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ini adalah Backend API berbasis Laravel untuk proyek SPW. Sistem ini mencakup fitur autentikasi, manajemen produk, pencatatan transaksi penjualan, dan laporan pendapatan.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠 Instalasi & Setup (Lokal)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Jika Anda ingin menjalankan proyek ini di komputer lokal, ikuti langkah-langkah berikut:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone repository ini**
+   ```bash
+   git clone <url-repo-anda>
+   cd project-SPW-pic
+   ```
 
-## Learning Laravel
+2. **Install Dependensi Composer**
+   ```bash
+   composer install
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **Setup Environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. **Konfigurasi Database**
+   Buka file `.env` dan pastikan konfigurasi database sudah benar.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+5. **Migrasi Database**
+   Perintah ini akan membuat tabel-tabel yang dibutuhkan.
+   ```bash
+   php artisan migrate:fresh
+   ```
 
-## Agentic Development
+6. **Jalankan Server Lokal**
+   ```bash
+   php artisan serve
+   ```
+   Aplikasi akan berjalan di `http://127.0.0.1:8000`.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
-```bash
-composer require laravel/boost --dev
+## 📖 Panduan Lengkap Testing API di Postman
 
-php artisan boost:install
-```
+Gunakan **`http://127.0.0.1:8000`** sebagai *base URL* untuk setiap permintaan (*request*).
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+⚠️ **Penting:** Kecuali `/login` dan `/register`, semua *endpoint* di bawah wajib menggunakan **Bearer Token** karena sudah dilindungi oleh autentikasi Sanctum.
 
-## Contributing
+### Cara Pasang Token di Postman:
+1. Akses `/login` (atau `/register`) lalu perhatikan bagian `"token": "..."` di balasan (*response*) sistem. Salin teks token tersebut.
+2. Buka tab **Authorization** pada *request* API lain (misal: `/products`).
+3. Pilih kolom Type menjadi **Bearer Token**.
+4. *Paste* (tempel) token yang sudah disalin tadi ke dalam kolom **Token**.
+5. Pastikan selalu menambahkan Header `Accept: application/json` agar *response* selalu berupa format JSON murni.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+### 🔐 1. AUTHENTICATION (Tim)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Register User Baru
+- **Method:** `POST`
+- **URL:** `/register`
+- **Body (JSON):**
+  ```json
+  {
+      "name": "Admin Toko",
+      "email": "admin@toko.com",
+      "password": "password123"
+  }
+  ```
 
-## Security Vulnerabilities
+#### Login
+- **Method:** `POST`
+- **URL:** `/login`
+- **Body (JSON):**
+  ```json
+  {
+      "email": "admin@toko.com",
+      "password": "password123"
+  }
+  ```
+  *(Catat/Salin isi `token` dari respons untuk digunakan pada endpoint lainnya!)*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Logout
+- **Method:** `POST`
+- **URL:** `/logout`
+- **Auth:** Bearer Token
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 📦 2. PRODUCT (Ardi & Ulan)
+
+#### Tambah Produk
+- **Method:** `POST`
+- **URL:** `/products`
+- **Auth:** Bearer Token
+- **Body (JSON):**
+  ```json
+  {
+      "nama_produk": "Indomie Goreng",
+      "harga_beli": 2500,
+      "harga_jual": 3500,
+      "stok": 100
+  }
+  ```
+
+#### Lihat Semua Produk
+- **Method:** `GET`
+- **URL:** `/products`
+- **Auth:** Bearer Token
+
+#### Edit Produk (Contoh ID: 1)
+- **Method:** `PUT`
+- **URL:** `/products/1`
+- **Auth:** Bearer Token
+- **Body (JSON):**
+  ```json
+  {
+      "stok": 150,
+      "harga_jual": 4000
+  }
+  ```
+
+#### Hapus Produk (Contoh ID: 1)
+- **Method:** `DELETE`
+- **URL:** `/products/1`
+- **Auth:** Bearer Token
+
+---
+
+### 💰 3. TRANSACTION (Keefa)
+
+#### Simpan Transaksi Penjualan
+- **Method:** `POST`
+- **URL:** `/transactions`
+- **Auth:** Bearer Token
+- **Body (JSON):**
+  ```json
+  {
+      "product_id": 1,
+      "jumlah": 5
+  }
+  ```
+  *(Sistem akan otomatis mengambil harga jual produk dari database, mengalikannya dengan `jumlah`, lalu memotong sisa `stok` produk tersebut.)*
+
+#### Lihat Riwayat Transaksi
+- **Method:** `GET`
+- **URL:** `/transactions`
+- **Auth:** Bearer Token
+
+---
+
+### 📊 4. DASHBOARD (Syifa)
+
+#### Lihat Ringkasan Utama
+- **Method:** `GET`
+- **URL:** `/dashboard`
+- **Auth:** Bearer Token
+- **Keterangan:** Menampilkan data ringkas total produk terdaftar, total transaksi, dan total pendapatan.
+
+---
+
+### 📑 5. REPORT (Bunda)
+
+#### Lihat Laporan
+- **Method:** `GET`
+- **URL:** `/reports` (tanpa filter, ambil semua dari awal)
+- **URL dengan Filter Tanggal:** `/reports?start=2026-04-01&end=2026-04-30`
+- **Auth:** Bearer Token
+- **Keterangan:** Mengembalikan list semua transaksi secara detail, berikut perhitungan total *revenue* dan total **keuntungan (profit bersih)** secara keseluruhan dalam rentang tanggal tersebut.
