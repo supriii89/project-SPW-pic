@@ -6,7 +6,7 @@
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <div>
         <h1 class="text-2xl font-bold text-slate-800">Laporan Penjualan</h1>
-        <p class="text-slate-500 text-sm mt-1">Pantau performa penjualan dan keuntungan kantin.</p>
+        <p class="text-slate-500 text-sm mt-1">Pantau performa penjualan dan keuntungan SPW.</p>
     </div>
     
     <!-- Filter Date Range -->

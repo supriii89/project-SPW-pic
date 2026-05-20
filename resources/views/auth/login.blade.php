@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Kantin Sekolah</title>
+    <title>Login - SPW Sekolah</title>
     
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-4 shadow-sm">
                 <i data-lucide="store" class="text-white w-8 h-8"></i>
             </div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Kantin<span class="text-blue-200">Sekolah</span></h1>
+            <h1 class="text-2xl font-bold text-white tracking-tight">SPW<span class="text-blue-200">Sekolah</span></h1>
             <p class="text-blue-100 mt-2 text-sm">Masuk ke dashboard admin</p>
         </div>
 
