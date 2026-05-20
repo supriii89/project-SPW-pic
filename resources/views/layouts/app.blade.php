@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kantin Sekolah - @yield('title', 'Dashboard')</title>
+    <title>SPW Sekolah - @yield('title', 'Dashboard')</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
             <!-- Sidebar Header -->
             <div class="h-16 flex items-center px-6 border-b border-slate-100">
                 <i data-lucide="store" class="text-primary w-6 h-6 mr-3"></i>
-                <span class="font-bold text-lg text-slate-800 tracking-tight">Kantin<span class="text-primary">Sekolah</span></span>
+                <span class="font-bold text-lg text-slate-800 tracking-tight">SPW<span class="text-primary">Sekolah</span></span>
             </div>
             
             <!-- Sidebar Navigation -->
@@ -114,7 +114,7 @@
                         <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold mr-2">
                             A
                         </div>
-                        <span class="text-sm font-medium text-slate-700 hidden sm:block">Admin Kantin</span>
+                        <span class="text-sm font-medium text-slate-700 hidden sm:block">Admin SPW</span>
                         <i data-lucide="chevron-down" class="w-4 h-4 ml-1 text-slate-400"></i>
                     </div>
                 </div>

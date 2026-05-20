@@ -6,7 +6,7 @@
 <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <div>
         <h1 class="text-2xl font-bold text-slate-800">Manajemen Produk</h1>
-        <p class="text-slate-500 text-sm mt-1">Kelola data makanan, minuman, dan stok kantin.</p>
+        <p class="text-slate-500 text-sm mt-1">Kelola data makanan, minuman, dan stok SPW.</p>
     </div>
     <a href="/produk/create" class="inline-flex items-center justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
         <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
