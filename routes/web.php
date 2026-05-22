@@ -8,49 +8,49 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-// AUTHENTICATION
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
+// AUTHENTICATION ROUTES (GUEST ONLY)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
+    
+    Route::post('/login', [AuthController::class, 'login']);
+    
+    Route::get('/register', function () {
+        return view('auth.register');
+    });
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
-// PROTECTED ROUTES (using Sanctum)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+// PROTECTED ROUTES (WEB SESSION)
+Route::middleware('auth')->group(function () {
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout']); // Fallback via GET just in case
 
     // DASHBOARD
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    // Return view instead of Controller for now since Controller returns JSON
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    });
 
-    // PRODUCTS
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::get('/products/{id}', [ProductController::class, 'show']);
-    Route::put('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    // PRODUK
+    Route::get('/produk', function () { return view('produk.index'); });
+    Route::get('/produk/create', function () { return view('produk.form'); });
+    Route::get('/produk/{id}/edit', function () { return view('produk.form'); });
 
-    // TRANSACTIONS
-    Route::get('/transactions', [TransactionController::class, 'index']);
-    Route::post('/transactions', [TransactionController::class, 'store']);
+    // TRANSAKSI
+    Route::get('/transaksi', function () { return view('transaksi.index'); });
 
-    // REPORTS
-    Route::get('/reports', [ReportController::class, 'index']);
+    // LAPORAN
+    Route::get('/laporan', function () { return view('laporan.index'); });
+    
+    // --- API/JSON Fallbacks if still needed ---
+    Route::get('/api/products', [ProductController::class, 'index']);
+    Route::post('/api/products', [ProductController::class, 'store']);
+    Route::get('/api/transactions', [TransactionController::class, 'index']);
+    Route::post('/api/transactions', [TransactionController::class, 'store']);
 });
-
-// ==========================================
-// RUTE FRONTEND (TAMPILAN UI KANTIN)
-// ==========================================
-// Route-route di bawah ini digunakan untuk menampilkan halaman desain frontend (Blade)
-// yang baru saja dibuat, tanpa terblokir oleh otentikasi API/Sanctum sementara.
-
-Route::get('/login-ui', function () { return view('auth.login'); });
-
-// Karena /dashboard sudah dipakai di atas, kita gunakan nama lain atau overide sbb:
-Route::get('/dashboard-ui', function () { return view('dashboard.index'); });
-
-// Menu Sidebar
-Route::get('/produk', function () { return view('produk.index'); });
-Route::get('/produk/create', function () { return view('produk.form'); });
-Route::get('/produk/{id}/edit', function () { return view('produk.form'); }); // form edit sama dengan create
-Route::get('/transaksi', function () { return view('transaksi.index'); });
-Route::get('/laporan', function () { return view('laporan.index'); });

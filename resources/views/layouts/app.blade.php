@@ -48,7 +48,7 @@
             <div class="p-4 flex-1 overflow-y-auto">
                 <ul class="space-y-1.5">
                     <li>
-                        <a href="/dashboard-ui" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary group transition-colors">
+                        <a href="/dashboard" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary group transition-colors">
                             <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3 text-slate-400 group-hover:text-primary transition-colors"></i>
                             Dashboard
                         </a>
@@ -82,7 +82,7 @@
             
             <!-- Sidebar Footer -->
             <div class="p-4 border-t border-slate-200">
-                <a href="/login-ui" class="flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                <a href="/logout" class="flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                     <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
                     Logout
                 </a>
