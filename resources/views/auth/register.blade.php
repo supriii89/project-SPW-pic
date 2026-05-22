@@ -14,7 +14,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col items-center justify-center p-4">
-
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
         <!-- Header -->
         <div class="bg-blue-600 px-6 py-6 text-center">
